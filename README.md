@@ -1,2 +1,2 @@
-# uPhone
-A baby phone running on MicroPython
+# &#181;Phone
+A baby phone running on MicroPython.
