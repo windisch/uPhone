@@ -1,4 +1,6 @@
+# Python
 __pycache__/
+.pytest_cache/
 *.py[cod]
 *$py.class
 .Python
@@ -21,3 +23,6 @@ share/python-wheels/
 *.egg
 MANIFEST
 docs/_build/
+
+# Ignore TODO stuff
+*.otl
