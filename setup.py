@@ -7,11 +7,8 @@ setup(
 
     # dependencies
     install_requires=[
-    ],
-    tests_require=[
         "pytest",
     ],
-
     # metadata for upload to PyPI
     author="Tobias Windisch",
     author_email="tobias.windisch@posteo.de",
