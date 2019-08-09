@@ -1,7 +1,7 @@
 """
 Sender class
 """
-import logging
+from uphone.logging import getLogger
 import network
 from pyb import (
     Pin,
@@ -9,7 +9,8 @@ from pyb import (
 )
 from uphone.mic import get_data
 
-# logger = logging.getLogger(__name__)
+
+logger = getLogger(__name__)
 
 
 class Phone(object):
@@ -35,10 +36,10 @@ class Phone(object):
         while True:
             data = get_data(pin_mic, time=1, frequency=10)
             noise_max = max(data)
-            print(noise_max)
+            logger.info('Current noise {}'.format(noise_max))
 
             # TODO: Make threshold configurable
-            if noise_max > 2800:
+            if noise_max > 3000:
                 # TODO: Set intensity level
                 LED(1).on()
             else:
@@ -46,7 +47,6 @@ class Phone(object):
 
     def _set_led_intensity(self, level):
         """
-
         Set intensity of LED
         """
         pass

@@ -1,10 +1,6 @@
 from pyb import Timer
 from pyb import ADC
 from array import array
-# import logging
-
-
-# logger = logging.getLogger(__name__)
 
 
 def get_data(pin, time=1, frequency=15):
