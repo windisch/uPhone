@@ -13,3 +13,6 @@ class Config(object):
 
     def get_wifi_credentials(self):
         return self._config["wifi"]["ssid"], self._config["wifi"]["key"]
+
+    def get_mic_pin(self):
+        return self._config["mic"]["pin"]
