@@ -1,14 +1,10 @@
-from pyb import Timer
-from pyb import Pin
-from pyb import ADC
-from array import array
+from uphone.board import Board
 
 
 class Mic(object):
 
     def __init__(self, pin_name):
-        self.pin = Pin(pin_name, Pin.ANALOG)
-        self.adc = ADC(self.pin)
+        self.adc = Board.get_adc_of_pin(pin_name)
 
     def get_data(self, time=1, frequency=15):
         """
@@ -20,9 +16,8 @@ class Mic(object):
             time (int): Time (in seconds) to sample
             frequency (int): Frequency (in Hz) to sample
         """
-        timer = Timer(8, freq=frequency)
-
-        data = array('H', (0 for _ in range(time*frequency)))
+        timer = Board.get_timer(frequency)
+        data = Board.get_array(time*frequency)
 
         # logger.info('Start listening')
         self.adc.read_timed(data, timer)
