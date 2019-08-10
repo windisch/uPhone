@@ -1,23 +1,29 @@
 from pyb import Timer
+from pyb import Pin
 from pyb import ADC
 from array import array
 
 
-def get_data(pin, time=1, frequency=15):
-    """
+class Mic(object):
 
-    Converts the analog values of the mic to digital values. In a totally silent environment, the
-    measured value is V_CC/2.
+    def __init__(self, pin_name):
+        self.pin = Pin(pin_name, Pin.ANALOG)
+        self.adc = ADC(self.pin)
 
-    Args:
-        time (int): Time (in seconds) to sample
-        frequency (int): Frequency (in Hz) to sample
-    """
-    adc = ADC(pin)
-    timer = Timer(8, freq=frequency)
+    def get_data(self, time=1, frequency=15):
+        """
 
-    data = array('H', (0 for _ in range(time*frequency)))
+        Converts the analog values of the mic to digital values. In a totally silent environment, the
+        measured value is V_CC/2.
 
-    # logger.info('Start listening')
-    adc.read_timed(data, timer)
-    return data
+        Args:
+            time (int): Time (in seconds) to sample
+            frequency (int): Frequency (in Hz) to sample
+        """
+        timer = Timer(8, freq=frequency)
+
+        data = array('H', (0 for _ in range(time*frequency)))
+
+        # logger.info('Start listening')
+        self.adc.read_timed(data, timer)
+        return data

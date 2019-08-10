@@ -2,6 +2,7 @@
 Sender class
 """
 from uphone.logging import getLogger
+from uphone.mic import Mic
 import network
 from pyb import (
     Pin,
@@ -16,34 +17,43 @@ logger = getLogger(__name__)
 class Phone(object):
 
     def __init__(self, config):
+        logger.info('Initialize uPhone')
+
         self.config = config
+
+        logger.info('Connect to WIFI')
         self.wlan = network.WLAN()
-        # logger.info('Initialize a sender')
+
+        logger.info('Setup Mic')
+        self.mic = Mic(self.config.get_mic_pin())
 
     def start(self):
         self.connect_to_network()
         self.listen()
 
-    def _get_mic_pin(self):
-        """
-        """
-        pin_name = self.config.get_mic_pin()
-        return Pin(pin_name, Pin.ANALOG)
-
     def listen(self):
 
-        pin_mic = self._get_mic_pin()
         while True:
-            data = get_data(pin_mic, time=1, frequency=10)
-            noise_max = max(data)
-            logger.info('Current noise {}'.format(noise_max))
+            data = self.mic.get_data(time=1, frequency=10)
+
+            level = self._compute_noise_level(data)
+            logger.info('Noise level {}'.format(level))
 
             # TODO: Make threshold configurable
-            if noise_max > 3000:
+            if level > 0.3:
                 # TODO: Set intensity level
                 LED(1).on()
             else:
                 LED(1).off()
+
+    def _compute_noise_level(self, data):
+        """
+        Returns a number between 0 (no noise) and 1 (a lot of noise)
+        """
+        noise = max(data)
+        noise_min = 2600
+        noise_max = 4095
+        return (noise - noise_min)/(noise_max - noise_min)
 
     def _set_led_intensity(self, level):
         """
@@ -52,10 +62,8 @@ class Phone(object):
         pass
 
     def check_connection(self):
-        if self.wlan.isconnected():
-            LED(3).on()
-        else:
-            LED(1).on()
+        if not self.wlan.isconnected():
+            raise Exception('No WIFI Connection')
 
     def connect_to_network(self):
         # establish WIFI
