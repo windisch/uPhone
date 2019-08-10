@@ -1,32 +1,8 @@
 import unittest
-import tempfile
-import os
-import json
-from uphone.config import Config
-
-
-class ConfigWrapper(object):
-    """
-    Wrapper that wraps configurations
-    """
-
-    def __init__(self, config):
-        self.config = config
-
-    def __enter__(self):
-
-        self.tmpfile = tempfile.NamedTemporaryFile()
-
-        with open(self.tmpfile.name, 'w') as fh:
-            fh.writelines(json.dumps(self.config))
-        return self.tmpfile.name
-
-    def __exit__(self, exception_type, exception_value, traceback):
-
-        try:
-            os.remove(self.tmpfile.name)
-        except FileNotFoundError:
-            pass
+from uphone.config import (
+    Config,
+    ConfigWrapper
+)
 
 
 class TestConfig(unittest.TestCase):
@@ -36,10 +12,13 @@ class TestConfig(unittest.TestCase):
             'wifi': {
                 'key': 'mypw',
                 'ssid': 'myssid'
+            },
+            'mic': {
+                'pin': 'X3'
             }
         }
 
-    def test_parsing(self):
+    def test_wifi(self):
 
         with ConfigWrapper(self.config) as filepath:
             config = Config(filepath)
@@ -47,3 +26,7 @@ class TestConfig(unittest.TestCase):
                 config.get_wifi_credentials(),
                 ('myssid', 'mypw')
             )
+    def test_mic_pin(self):
+        with ConfigWrapper(self.config) as filepath:
+            config = Config(filepath)
+            self.assertEqual(config.get_mic_pin(), 'X3')

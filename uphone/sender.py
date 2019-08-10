@@ -10,15 +10,16 @@ logger = getLogger(__name__)
 
 class Phone(object):
 
-    def __init__(self, config):
+    def __init__(self, config, board=Board()):
         logger.info('Initialize uPhone')
 
         self.config = config
+        self.board = board
 
         logger.info('Connect to WIFI')
-        self.wlan = Board.get_wifi_connection(*self.config.get_wifi_credentials())
+        self.wlan = self.board.get_wifi_connection(*self.config.get_wifi_credentials())
         logger.info('Setup Mic')
-        self.mic = Mic(self.config.get_mic_pin())
+        self.mic = Mic(self.config.get_mic_pin(), board=self.board)
 
     def start(self):
         self.listen()

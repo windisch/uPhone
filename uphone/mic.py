@@ -3,8 +3,9 @@ from uphone.board import Board
 
 class Mic(object):
 
-    def __init__(self, pin_name):
-        self.adc = Board.get_adc_of_pin(pin_name)
+    def __init__(self, pin_name, board=Board()):
+        self.board = board
+        self.adc = self.board.get_adc_of_pin(pin_name)
 
     def get_data(self, time=1, frequency=15):
         """
