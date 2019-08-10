@@ -6,12 +6,23 @@ try:
     from pyb import Timer
     from pyb import Pin
     from pyb import ADC
+    from pyb import LED
     from array import array
 except ImportError:
     pass
 
 
 class Board(object):
+
+    def __init__(self):
+
+        self.led = {
+            'r':  LED(1),
+            'g':  LED(2),
+            'b':  LED(3),
+        }
+
+        self.wlan = WLAN()
 
     @staticmethod
     def get_adc_of_pin(pin_name):
@@ -26,10 +37,16 @@ class Board(object):
     def get_array(length, init_value=0):
         return array('H', (init_value for _ in range(length)))
 
-    @staticmethod
-    def get_wifi_connection(ssid, key):
+    def connect_wifi(self, ssid, key):
         # establish WIFI
-        wlan = WLAN()
-        wlan.active(1)
-        wlan.connect(ssid, key)
-        return wlan
+        self.wlan.active(1)
+        self.wlan.connect(ssid, key)
+
+    def is_connected(self):
+        return self.wlan.isconnected()
+
+    def turn_off_red_led(self):
+        self.led['r'].off()
+
+    def turn_on_red_led(self):
+        self.led['r'].on()

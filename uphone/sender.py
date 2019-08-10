@@ -10,18 +10,22 @@ logger = getLogger(__name__)
 
 class Phone(object):
 
-    def __init__(self, config, board=Board()):
+    def __init__(self, config, board=None):
         logger.info('Initialize uPhone')
 
         self.config = config
-        self.board = board
+        if board is None:
+            self.board = Board()
+        else:
+            self.board = board
 
         logger.info('Connect to WIFI')
-        self.wlan = self.board.get_wifi_connection(*self.config.get_wifi_credentials())
+        self.board.get_wifi_connection(*self.config.get_wifi_credentials())
         logger.info('Setup Mic')
         self.mic = Mic(self.config.get_mic_pin(), board=self.board)
 
     def start(self):
+        self.check_wifi_connection()
         self.listen()
 
     def listen(self):
@@ -35,9 +39,12 @@ class Phone(object):
             # TODO: Make threshold configurable
             if level > 0.3:
                 self.trigger_alarm()
+                self.board.turn_on_red_led()
+            else:
+                self.board.turn_off_red_led()
 
     def trigger_alarm(self):
-        print('Call daddy!')
+        logger.info('Noise detected, call daddy!')
 
     def _compute_noise_level(self, data):
         """
@@ -48,6 +55,6 @@ class Phone(object):
         noise_max = 4095
         return (noise - noise_min)/(noise_max - noise_min)
 
-    def check_connection(self):
-        if not self.wlan.isconnected():
-            raise Exception('No WIFI Connection')
+    def check_wifi_connection(self):
+        if not self.board.is_connected():
+            raise Exception('WIFI Connection missing')
