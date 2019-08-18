@@ -11,6 +11,11 @@ try:
 except ImportError:
     pass
 
+from uphone.logging import getLogger
+
+
+logger = getLogger(__name__)
+
 
 class Board(object):
 
@@ -39,6 +44,7 @@ class Board(object):
 
     def connect_wifi(self, ssid, key):
         # establish WIFI
+        logger.info('Connect to {}'.format(ssid))
         self.wlan.active(1)
         self.wlan.connect(ssid, key)
 

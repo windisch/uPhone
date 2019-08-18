@@ -26,4 +26,4 @@ class TestSender(unittest.TestCase):
         with ConfigWrapper(self.config) as filepath:
             config = Config(filepath)
             Phone(config, board=self.board)
-            self.assertTrue(self.board.get_wifi_connection.called)
+            self.assertTrue(self.board.connect_wifi.called)

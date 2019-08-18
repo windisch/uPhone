@@ -20,7 +20,7 @@ class Phone(object):
             self.board = board
 
         logger.info('Connect to WIFI')
-        self.board.get_wifi_connection(*self.config.get_wifi_credentials())
+        self.board.connect_wifi(*self.config.get_wifi_credentials())
         logger.info('Setup Mic')
         self.mic = Mic(self.config.get_mic_pin(), board=self.board)
 
@@ -37,7 +37,7 @@ class Phone(object):
             logger.info('Noise level {}'.format(level))
 
             # TODO: Make threshold configurable
-            if level > 0.3:
+            if level > 0.4:
                 self.trigger_alarm()
                 self.board.turn_on_red_led()
             else:

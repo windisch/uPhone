@@ -26,6 +26,7 @@ class TestConfig(unittest.TestCase):
                 config.get_wifi_credentials(),
                 ('myssid', 'mypw')
             )
+
     def test_mic_pin(self):
         with ConfigWrapper(self.config) as filepath:
             config = Config(filepath)
