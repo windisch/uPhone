@@ -28,7 +28,7 @@ class TestPublisher(unittest.TestCase):
         self.pub.close()
 
     def build_listener(self, n_messages):
-        data = Array('i', [0]*n_messages)
+        data = Array('d', [0.0]*n_messages)
         client = Process(target=run_listener, args=(data, n_messages))
         client.start()
         return client, data
@@ -78,7 +78,7 @@ class TestPublisher(unittest.TestCase):
             client.join()
 
         self.assertListEqual(
-            data_a[:], [3, 4])
+            data_a[:], [3.0, 4.0])
 
         self.assertListEqual(
-            data_b[:], [3, 4, 5, 6, 7])
+            data_b[:], [3.0, 4.0, 5.0, 6.0, 7.0])
