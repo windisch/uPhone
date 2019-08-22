@@ -8,9 +8,15 @@ class Logger(object):
         self.name = name
 
     def info(self, msg):
-        print('{name} - INFO - {msg}'.format(
+        print('I - {name} - {msg}'.format(
             name=self.name,
             msg=msg))
+
+    def warning(self, msg):
+        print('W - {name} - {msg}'.format(
+            name=self.name,
+            msg=msg))
+
 
 def getLogger(name):
     return Logger(name)
