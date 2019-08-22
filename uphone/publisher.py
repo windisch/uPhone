@@ -30,22 +30,21 @@ class Publisher(object):
 
     def _get_clients(self):
         """
-        s: socket
+        Returns clients that await a connection
         """
 
-        print('Check for new clients')
-        timeout = 0
+        logger.info('Check for new clients')
         accepted_clients = []
         # Check for two new clients
         # TODO: Here, number of allowed number of clients left should be plugged
         for _ in range(2):
             # TODO: Here may also a repeat work
-            sockets_connecting, _, _ = select.select([self.s], [], [], timeout)
+            sockets_connecting, _, _ = select.select([self.s], [], [], 0.1)
             for soc in sockets_connecting:
                 client, addr = soc.accept()
-                print('client connected from', addr)
+                logger.info('Client connected from {}'.format(addr))
                 msg = client.recv(1024)
-                print('Client MSG {}'.format(msg))
+                logger.info('Client MSG {}'.format(msg))
                 client.send(b'OK')
                 accepted_clients.append(client)
 
