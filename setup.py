@@ -13,7 +13,7 @@ else:
 
     cmdclass={}
     install_requires = [
-        "numpy=1.16.4"
+        "numpy==1.16.4"
     ]
 
 setup(
