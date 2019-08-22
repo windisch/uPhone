@@ -72,8 +72,11 @@ class TestPublisher(unittest.TestCase):
         client_a, data_a = self.build_listener(2)
         client_b, data_b = self.build_listener(5)
         self.pub.send(gen=slowed_range, connection_interval=3)
-        client_a.join()
-        client_b.join()
+
+        for client in [client_a, client_b]:
+            client.terminate()
+            client.join()
+
         self.assertListEqual(
             data_a[:], [3, 4])
 
