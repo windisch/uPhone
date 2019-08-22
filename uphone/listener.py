@@ -8,7 +8,7 @@ logger = getLogger(__name__)
 
 class Listener(object):
 
-    def __init__(self, url, port):
+    def __init__(self, url, port=9999):
 
         self.url = url
         self.port = port

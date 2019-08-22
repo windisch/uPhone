@@ -65,7 +65,7 @@ class TestSender(unittest.TestCase):
         # Give the phone a bit time to start up
         phone_process.start()
         time.sleep(0.1)
-        client = Listener('0.0.0.0', 90)
+        client = Listener('0.0.0.0')
         data = [d for d in itertools.islice(client, 10)]
         phone_process.terminate()
         phone_process.join()

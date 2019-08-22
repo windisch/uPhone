@@ -7,7 +7,7 @@ from multiprocessing import Array
 
 
 def run_listener(data, n_messages):
-    client = Listener('0.0.0.0', 90)
+    client = Listener('0.0.0.0')
 
     for i, message in zip(range(n_messages), client):
         data[i] = int(message)
@@ -22,7 +22,7 @@ def slowed_range():
 class TestPublisher(unittest.TestCase):
 
     def setUp(self):
-        self.pub = Publisher(port=90)
+        self.pub = Publisher()
 
     def tearDown(self):
         self.pub.close()

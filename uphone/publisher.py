@@ -12,7 +12,7 @@ class Publisher(object):
     connected clients.
     """
 
-    def __init__(self, port=90):
+    def __init__(self, port=9999):
 
         self.port = port
         self.s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
