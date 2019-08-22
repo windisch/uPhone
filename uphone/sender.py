@@ -4,6 +4,10 @@ Sender class
 from uphone.logging import getLogger
 from uphone.mic import Mic
 from uphone.board import Board
+from uphone.bus import Publisher
+import socket
+import time
+import select
 
 logger = getLogger(__name__)
 
@@ -23,10 +27,15 @@ class Phone(object):
         self.board.connect_wifi(*self.config.get_wifi_credentials())
         logger.info('Setup Mic')
         self.mic = Mic(self.config.get_mic_pin(), board=self.board)
+        logger.info('Start publisher')
+        self.publisher = Publisher()
 
     def start(self):
         self.check_wifi_connection()
-        self.listen()
+
+        logger.info('Start publishing')
+        self.publisher.send(self.listen, connection_interval=3)
+        self.publisher.close()
 
     def listen(self):
 
@@ -38,13 +47,13 @@ class Phone(object):
 
             # TODO: Make threshold configurable
             if level > 0.4:
-                self.trigger_alarm()
+                logger.info('Noise detected, call daddy!')
                 self.board.turn_on_red_led()
+                # yield "Noise detected, call daddy! (Level={})".format(level)
             else:
                 self.board.turn_off_red_led()
-
-    def trigger_alarm(self):
-        logger.info('Noise detected, call daddy!')
+                # yield "Everything fine (Level={})".format(level)
+            yield level
 
     def _compute_noise_level(self, data):
         """

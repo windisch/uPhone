@@ -3,17 +3,21 @@ import select
 from uphone.logging import getLogger
 
 
-
 logger = getLogger(__name__)
 
 
 class Publisher(object):
+    """
+    Class that opens a socket, checks cyclically for new clients, and publishes messages to all
+    connected clients.
+    """
 
     def __init__(self, port=90):
 
         self.port = port
         self.s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         # Open socket for incoming clients
+        logger.info('Open socket on port {}'.format(port))
         self.s.bind(('0.0.0.0', self.port))
         self.s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         self.s.listen(0)
@@ -52,6 +56,7 @@ class Publisher(object):
         Publishes a given generator to all connected clients and checks cyclically if new clients
         are connected
         """
+        logger.info('Start distribution')
         i = 0
 
         for data in gen():
@@ -76,7 +81,7 @@ class Publisher(object):
         for client in self.clients:
             try:
                 client.send(bytes(str(data), 'utf-8'))
-            except socket.error:
+            except Exception:
                 logger.warning('Client {} not reachable. Mark him as dead'.format(client))
                 dead_clients.append(client)
 

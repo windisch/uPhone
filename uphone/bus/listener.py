@@ -19,7 +19,8 @@ class Listener(object):
             socket_uphone.connect((self.url, self.port))
             # Tell server to send data to sockt
             socket_uphone.send(b'Hi uPhone, please gimme data')
-            result = socket_uphone.recv(10)
+            result = socket_uphone.recv(2)
+
             logger.info('Got {} from server'.format(result))
             if result != b'OK':
                 raise Exception('Something went wrong')

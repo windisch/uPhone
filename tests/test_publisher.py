@@ -1,7 +1,7 @@
 import unittest
 import time
-from uphone.bus.publisher import Publisher
-from uphone.bus.listener import Listener
+from uphone.bus import Publisher
+from uphone.bus import Listener
 from multiprocessing import Process
 from multiprocessing import Array
 
@@ -29,7 +29,7 @@ class TestPublisher(unittest.TestCase):
 
     def build_listener(self, n_messages):
         data = Array('i', [0]*n_messages)
-        client  = Process(target=run_listener, args=(data, n_messages))
+        client = Process(target=run_listener, args=(data, n_messages))
         client.start()
         return client, data
 
