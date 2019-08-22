@@ -12,7 +12,9 @@ if sys.implementation.name == 'micropython':
 else:
 
     cmdclass={}
-    install_requires = []
+    install_requires = [
+        "numpy=1.16.4"
+    ]
 
 setup(
     name="uphone",
