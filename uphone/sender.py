@@ -4,10 +4,7 @@ Sender class
 from uphone.logging import getLogger
 from uphone.mic import Mic
 from uphone.board import Board
-from uphone.bus import Publisher
-import socket
-import time
-import select
+from uphone.bus.publisher import Publisher
 
 logger = getLogger(__name__)
 
