@@ -1,7 +1,7 @@
 import unittest
 import time
-from uphone.bus.publisher import Publisher
-from uphone.bus.listener import Listener
+from uphone.messaging.publisher import Publisher
+from uphone.messaging.listener import Listener
 from multiprocessing import Process
 from multiprocessing import Array
 

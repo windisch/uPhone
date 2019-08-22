@@ -8,7 +8,7 @@ from multiprocessing import Process
 from uphone.config import Config
 from uphone.config import ConfigWrapper
 from uphone.sender import Phone
-from uphone.bus.listener import Listener
+from uphone.messaging.listener import Listener
 
 
 def random_noise(random):

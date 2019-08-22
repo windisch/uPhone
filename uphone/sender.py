@@ -4,7 +4,7 @@ Sender class
 from uphone.logging import getLogger
 from uphone.mic import Mic
 from uphone.board import Board
-from uphone.bus.publisher import Publisher
+from uphone.messaging.publisher import Publisher
 
 logger = getLogger(__name__)
 
