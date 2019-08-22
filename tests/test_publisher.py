@@ -71,6 +71,7 @@ class TestPublisher(unittest.TestCase):
     def test_multiple_clients(self):
         client_a, data_a = self.build_listener(2)
         client_b, data_b = self.build_listener(5)
+        time.sleep(0.1)
         self.pub.send(gen=slowed_range, connection_interval=3)
 
         for client in [client_a, client_b]:
