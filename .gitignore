@@ -26,3 +26,5 @@ docs/_build/
 
 # Ignore TODO stuff
 *.otl
+
+config.json
