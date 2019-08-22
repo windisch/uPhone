@@ -3,12 +3,12 @@ import numpy as np
 import time
 import itertools
 from unittest.mock import Mock
-
 from multiprocessing import Process
+
 from uphone.config import Config
 from uphone.config import ConfigWrapper
-from uphone.sender import Phone
-from uphone.messaging.listener import Listener
+from uphone import Phone
+from uphone.listener import Listener
 
 
 def random_noise(random):
