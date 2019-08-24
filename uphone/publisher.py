@@ -39,7 +39,7 @@ class Publisher(object):
         # TODO: Here, number of allowed number of clients left should be plugged
         for _ in range(2):
             # TODO: Here may also a repeat work
-            sockets_connecting, _, _ = select.select([self.s], [], [], 0.1)
+            sockets_connecting, _, _ = select.select([self.s], [], [], 0.0)
             for soc in sockets_connecting:
                 client, addr = soc.accept()
                 logger.info('Client connected from {}'.format(addr))
