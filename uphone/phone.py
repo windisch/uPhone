@@ -5,6 +5,9 @@ from uphone.logging import getLogger
 from uphone.mic import Mic
 from uphone.board import Board
 from uphone.publisher import Publisher
+from uphone.helpers import zfill
+
+import time
 
 logger = getLogger(__name__)
 
@@ -28,11 +31,22 @@ class Phone(object):
         self.publisher = Publisher()
 
     def start(self):
-        self.check_wifi_connection()
+
+        self.wait_for_wifi()
 
         logger.info('Start publishing')
         self.publisher.send(self.listen, connection_interval=3)
         self.publisher.close()
+
+    def wait_for_wifi(self):
+        while True:
+            if self.check_wifi_connection():
+                logger.info('WiFi Connected')
+                self.board.turn_on_green_led()
+                break
+            else:
+                logger.warning('WiFi not yet connected..wait a bit')
+                time.sleep(1)
 
     def listen(self):
 
@@ -43,24 +57,22 @@ class Phone(object):
             logger.info('Noise level {}'.format(level))
 
             # TODO: Make threshold configurable
-            if level > 0.4:
+            if level > 40:
                 logger.info('Noise detected, call daddy!')
                 self.board.turn_on_red_led()
-                # yield "Noise detected, call daddy! (Level={})".format(level)
             else:
                 self.board.turn_off_red_led()
-                # yield "Everything fine (Level={})".format(level)
-            yield level
+            yield zfill(str(level), 3)
 
     def _compute_noise_level(self, data):
         """
-        Returns a number between 0 (no noise) and 1 (a lot of noise)
+        Returns a integer number  between 0 (no noise) and 100 (a lot of noise)
         """
         noise = max(data)
         noise_min = 2600
         noise_max = 4095
-        return (noise - noise_min)/(noise_max - noise_min)
+        ratio = (noise - noise_min)/(noise_max - noise_min)
+        return int(ratio*100)
 
     def check_wifi_connection(self):
-        if not self.board.is_connected():
-            raise Exception('WIFI Connection missing')
+        return self.board.is_connected()

@@ -1,7 +1,7 @@
 # main.py -- put your code here!
 
-from uphone.sender import Phone
-from uphone.config import Config
+from uphone import Phone
+from uphone import Config
 
 
 config = Config('config.json')

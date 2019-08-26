@@ -25,8 +25,9 @@ class Listener(object):
             if result != b'OK':
                 raise Exception('Something went wrong')
             while True:
-                data = socket_uphone.recv(1024)
+                data = socket_uphone.recv(3).decode('utf-8')
+                logger.info('Received {}'.format(data))
                 if data:
-                    yield float(data.decode("utf-8"))
+                    yield int(data)
                 else:
                     break

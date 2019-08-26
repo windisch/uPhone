@@ -20,4 +20,4 @@ speaking, any device which is able to open network sockets).
 ## Components
 I currently used a [Pybord D-series with
 WiFi](https://store.micropython.org/product/PYBD-SF2-W4F2) and
-attached cheap noise sensor to it (Max4466).
+attached a reasonably priced noise sensor to it (Max4466).

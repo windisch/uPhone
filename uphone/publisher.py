@@ -53,7 +53,10 @@ class Publisher(object):
     def send(self, gen, connection_interval=10):
         """
         Publishes a given generator to all connected clients and checks cyclically if new clients
-        are connected
+        are connected.
+
+        Args:
+            gen (iterable): Iterator that yields string messages of equal size
         """
         logger.info('Start distribution')
         i = 0
@@ -74,12 +77,15 @@ class Publisher(object):
 
     def _send_to_clients(self, data):
         """
-        Sends a single data message to all connected clients
+        Sends a single data message to all connected clients.
+
+        Args:
+            data (string): String message
         """
         dead_clients = []
         for client in self.clients:
             try:
-                client.send(bytes(str(data), 'utf-8'))
+                client.send(bytes(data, 'utf-8'))
             except Exception:
                 logger.warning('Client {} not reachable. Mark him as dead'.format(client))
                 dead_clients.append(client)

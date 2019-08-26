@@ -16,7 +16,7 @@ def run_listener(data, n_messages):
 def slowed_range():
     for i in range(10):
         time.sleep(0.01)
-        yield i
+        yield str(i).zfill(3)
 
 
 class TestPublisher(unittest.TestCase):
