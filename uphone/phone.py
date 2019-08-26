@@ -59,9 +59,11 @@ class Phone(object):
             # TODO: Make threshold configurable
             if level > 40:
                 logger.info('Noise detected, call daddy!')
+                self.board.turn_off_green_led()
                 self.board.turn_on_red_led()
             else:
                 self.board.turn_off_red_led()
+                self.board.turn_on_green_led()
             yield zfill(str(level), 3)
 
     def _compute_noise_level(self, data):

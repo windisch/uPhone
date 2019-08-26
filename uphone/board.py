@@ -59,3 +59,6 @@ class Board(object):
 
     def turn_on_green_led(self):
         self.led['g'].on()
+
+    def turn_off_green_led(self):
+        self.led['g'].off()
