@@ -15,15 +15,18 @@ class Listener(object):
 
     def __iter__(self, n_messages=-1):
         with socket.socket() as socket_uphone:
-            logger.info('Connect to uphone')
+            logger.info('Connect to uphone at {url}:{port}'.format(
+                url=self.url,
+                port=self.port)
+            )
             socket_uphone.connect((self.url, self.port))
             # Tell server to send data to sockt
-            socket_uphone.send(b'Hi uPhone, please gimme data')
+            socket_uphone.send(b'Hi uPhone, please gimme some noise')
             result = socket_uphone.recv(2)
 
-            logger.info('Got {} from server'.format(result))
+            logger.info('Received {} from Phone'.format(result))
             if result != b'OK':
-                raise Exception('Something went wrong')
+                raise Exception('Could not connect')
             while True:
                 data = socket_uphone.recv(3).decode('utf-8')
                 logger.info('Received {}'.format(data))
