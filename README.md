@@ -18,6 +18,6 @@ speaking, any device which is able to open network sockets).
 
 
 ## Components
-I currently used a [Pybord D-series with
+I currently used a [Pyboard D-series with
 WiFi](https://store.micropython.org/product/PYBD-SF2-W4F2) and
 attached a reasonably priced noise sensor to it (Max4466).
