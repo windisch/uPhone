@@ -8,7 +8,7 @@ rsync -av \
    --exclude=uphone \
    --exclude=uphone.egg-info \
    --exclude=__pycache__ \
-   . \
+   .. \
    /Volumes/PYBFLASH
 
 echo "Copy code dir"
